@@ -1,6 +1,10 @@
 google-genai
+google-generativeai
 textract
 python-dotenv
+fastapi[standard]
 openai
 youtube-transcript-api
 validators
+pydantic
+pydantic-core
