@@ -2,3 +2,5 @@ google-genai
 textract
 python-dotenv
 openai
+youtube-transcript-api
+validators
