@@ -1,12 +1,9 @@
 from openai import OpenAI
-from dotenv import load_dotenv
 import os
 from pydantic import BaseModel
 import json
 
-load_dotenv()
-
-client = OpenAI(api_key=os.getenv('PERPLEXITY_API_KEY'), base_url="https://api.perplexity.ai")
+client = OpenAI(api_key=os.environ.get('PERPLEXITY_API_KEY'), base_url="https://api.perplexity.ai")
 
 class Resources(BaseModel):
     free_resources: list[str]
@@ -33,10 +30,6 @@ def get_external_resources(topic: str) -> dict | str:
     )
     output = response.choices[0].message.content.strip()
     return output
-    # try:
-    #     return json.loads(output)
-    # except:
-    #     return output
 
 def get_asu_resources(prompt: str) -> dict | str:
     response = client.chat.completions.create(
@@ -54,10 +47,6 @@ def get_asu_resources(prompt: str) -> dict | str:
     )
     output = response.choices[0].message.content.strip()
     return output
-    # try:
-    #     return json.loads(output)
-    # except:
-    #     return output
     
 def get_asu_information(prompt):
     response = client.chat.completions.create(
@@ -120,10 +109,16 @@ def workflow(prompt):
     response = get_response_from_links(prompt, links)
     return response
 
-if __name__ == "__main__":
-    # print(get_type("I need a quiet place to study. Where can I go?"))
-    # print(get_type("What are some nice resources to learn Python?"))
-    print(workflow("What are some nice resources to learn Python?"))
-    # print(get_external_resources("Python"))
-    # print(get_asu_resources("I need a quiet place to study. Where can I go?"))
-    # print(get_asu_information("What is the best place to study on campus?"))
+def lambda_handler(event, context):
+    prompt = event["prompt"]
+    info = get_asu_information(prompt)
+    external_links = get_external_resources(prompt)
+    asu_links = get_asu_resources(prompt)
+    return {
+        "statusCode": 200,
+        "body": json.dumps({
+            "asu_info": info,
+            "external_links": external_links,
+            "asu_links": asu_links
+        })
+    }
