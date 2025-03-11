@@ -9,17 +9,17 @@ random.seed(42)
 def parse_text_file(file_path):
     with open(file_path, "r") as file:
         text = file.read()
-    return {"link": file_path, "type": "plaintext", "content": text}
+    return {"link": file_path, "type": "plaintext", "content": text.strip()}
     
 def parse_docx_file(file_path):
     text = textract.process(file_path)
     text = text.decode("utf-8")
-    return {"link": file_path, "type": "plaintext", "content": text}
+    return {"link": file_path, "type": "plaintext", "content": text.strip()}
 
 def parse_pdf_file(file_path):
     text = textract.process(file_path, method='pdfminer')
     text = text.decode("utf-8")
-    return {"link": file_path, "type": "plaintext", "content": text}
+    return {"link": file_path, "type": "plaintext", "content": text.strip()}
 
 def youtube_transcript(link):
     try:
@@ -28,14 +28,14 @@ def youtube_transcript(link):
             id = v[0]
         transcript = YouTubeTranscriptApi.get_transcript(id)
         text = "\n".join([entry['text'] for entry in transcript])
-        return {"link": link, "type": "video", "content": text}
+        return {"link": link, "type": "video", "content": text.strip()}
     except Exception as e:
         return {"link": link, "type": "Error: No Transcript Found" , "content": "N/A"}
 
 def parse_web_content(response):
     soup = BeautifulSoup(response.content, "html.parser")
     text = " ".join([p.text for p in soup.find_all(["p", "h1", "h2", "h3", "h4", "h5", "h6", "li"])])
-    return {"link": response, "type": "plaintext", "content": text}
+    return {"link": response, "type": "plaintext", "content": text.strip()}
 
 
 def check_link_content(link):
@@ -82,16 +82,16 @@ def check_link_content(link):
     elif "text/html" in content_type:
         return parse_web_content(response)
     
-    elif "application/msword" in content_type:
-        file_name = f'file_{random.randint(0, 1000)}.doc'
-        with open(file_name, "wb") as file:
-            for chunk in response.iter_content(chunk_size=8192):
-                file.write(chunk)
-        print(f"✅ Doc downloaded successfully: {'./'}")
-        out = parse_docx_file(file_name)
-        if os.path.exists(file_name):
-            os.remove(file_name)
-        return out
+    # elif "application/msword" in content_type:
+    #     file_name = f'file_{random.randint(0, 1000)}.doc'
+    #     with open(file_name, "wb") as file:
+    #         for chunk in response.iter_content(chunk_size=8192):
+    #             file.write(chunk)
+    #     print(f"✅ Doc downloaded successfully: {'./'}")
+    #     out = parse_docx_file(file_name)
+    #     if os.path.exists(file_name):
+    #         os.remove(file_name)
+    #     return out
     
     elif "application/vnd.openxmlformats-officedocument.wordprocessingml.document" in content_type:
         file_name = f'file_{random.randint(0, 1000)}.docx'
@@ -105,8 +105,7 @@ def check_link_content(link):
         return out
     
     else:
-        return {"link": link, 
-                "type": "Error: Unsupported content type."}
+        return {"link": link, "type": "Error: Unsupported content type."}
 
 def main(input_path):
     """
@@ -120,12 +119,11 @@ def main(input_path):
         return parse_docx_file(input_path)
     elif input_path.endswith('.pdf'):
         return parse_pdf_file(input_path)
-    elif input_path.endswith('.doc'):
-        return parse_docx_file(input_path)
+    # elif input_path.endswith('.doc'):
+    #     return parse_docx_file(input_path)
     else:
         return {"link": input_path, 
                 "type": "Error: Unsupported file type."}
     
-    
 if __name__=="__main__":
-    main()
+    pass
