@@ -1,12 +1,17 @@
 Backend/.venv/
 Backend/.env
 .venv/
+.DS_store
+.idea/
+Backend/.DS_Store
+Backend/__pycache__/
 Backend/LambdaPackage/
 Backend/lambda.zip
 Backend/lambda.sh
 Backend/LambdaZips/
 Backend/temp.*
 Backend/credentials.json
+Backend/token.json
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
