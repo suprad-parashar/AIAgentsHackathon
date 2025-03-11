@@ -1,4 +1,2 @@
-fastapi[standard]
-google-generativeai
 google-genai
-python-dotenv
+textract
