@@ -1,0 +1,105 @@
+{
+  "prof_office_hours": [
+    {
+      "day": "Thursday",
+      "start_time": 1430,
+      "end_time": 1530
+    }
+  ],
+  "prof_email": "ydeng19@asu.edu",
+  "prof_name": "Yuli Deng",
+  "course_name": "Cloud Computing",
+  "course_code": "CSE 546",
+  "course_description": "This course teaches both the fundamental concepts and principles of cloud computing and the practical skills for developing cloud applications on widely used Infrastructure-as-a-Service and Platform-as-a-Service resources. The course takes a novel bottom-up approach to teach cloud computing, covering both the enabling technologies (virtualization) of cloud computing and the practical cloud programming techniques (IaaS and PaaS).",
+  "course_prerequisites": "Good knowledge of data structures, computer organization, and computer networks. Proficiency in programming in at least one of the following programming languages: Java, Python, C++, .Net",
+  "ta_office_hours": [
+    {
+      "day": "Wednesday",
+      "start_time": 1400,
+      "end_time": 1500
+    }
+  ],
+  "ta_email": "nvadnere@asu.edu",
+  "ta_name": "Neha Vadnere",
+  "grader_office_hours": [],
+  "grader_email": "",
+  "grader_name": "",
+  "module_names": [
+    "Introduction",
+    "Background and history of cloud computing",
+    "Cloud computing models",
+    "Virtualization",
+    "Background and history of virtualization",
+    "Virtual machines",
+    "Virtual networks",
+    "Virtual storage",
+    "Infrastructure as a Service (IaaS)",
+    "IaaS system architecture",
+    "IaaS programming",
+    "Autoscaling",
+    "Platform as a Service (PaaS)",
+    "PaaS system architecture",
+    "Function as a Service (FaaS)",
+    "PaaS programming",
+    "Emerging Technologies",
+    "Cloud and AI",
+    "Cloud and edge"
+  ],
+  "class_timings": [],
+  "class_location": "BYENG MI-04",
+  "grading_policy": [
+    {
+      "grade": "A+",
+      "lower_limit": 95,
+      "upper_limit": 100
+    },
+    {
+      "grade": "A",
+      "lower_limit": 90,
+      "upper_limit": 95
+    },
+    {
+      "grade": "A-",
+      "lower_limit": 85,
+      "upper_limit": 90
+    },
+    {
+      "grade": "B+",
+      "lower_limit": 80,
+      "upper_limit": 85
+    },
+    {
+      "grade": "B",
+      "lower_limit": 75,
+      "upper_limit": 80
+    },
+    {
+      "grade": "B-",
+      "lower_limit": 70,
+      "upper_limit": 75
+    },
+    {
+      "grade": "C+",
+      "lower_limit": 65,
+      "upper_limit": 70
+    },
+    {
+      "grade": "C",
+      "lower_limit": 60,
+      "upper_limit": 65
+    },
+    {
+      "grade": "D",
+      "lower_limit": 50,
+      "upper_limit": 60
+    },
+    {
+      "grade": "E",
+      "lower_limit": 0,
+      "upper_limit": 50
+    }
+  ],
+  "missing_info": [
+    "class_timings"
+  ]
+}
