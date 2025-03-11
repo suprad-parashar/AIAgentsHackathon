@@ -1,6 +1,11 @@
 Backend/.venv/
 Backend/.env
 .venv/
+Backend/LambdaPackage/
+Backend/lambda.zip
+Backend/lambda.sh
+Backend/LambdaZips/
+Backend/temp.*
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
