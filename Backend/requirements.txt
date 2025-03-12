@@ -16,3 +16,6 @@ google-api-python-client
 elasticsearch
 sentence-transformers
 beautifulsoup4
+SQLAlchemy
+databases
+asyncpg
