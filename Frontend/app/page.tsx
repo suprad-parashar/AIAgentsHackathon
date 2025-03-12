@@ -12,9 +12,6 @@ export default function Home() {
           <Link href="/login">
             <Button variant="ghost">Login</Button>
           </Link>
-          <Link href="/signup">
-            <Button>Sign Up</Button>
-          </Link>
         </nav>
       </header>
       <main className="flex-1">
@@ -28,13 +25,8 @@ export default function Home() {
                 </p>
               </div>
               <div className="space-x-4">
-                <Link href="/signup">
-                  <Button size="lg">Get Started</Button>
-                </Link>
                 <Link href="/login">
-                  <Button variant="outline" size="lg">
-                    Login
-                  </Button>
+                  <Button size="lg">Get Started</Button>
                 </Link>
               </div>
             </div>

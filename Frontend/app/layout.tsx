@@ -1,4 +1,5 @@
 import type React from "react"
+import { NextAuthProvider } from "@/context/next-auth-provider"
 import { AuthProvider } from "@/context/auth-context"
 import "./globals.css"
 import { Inter } from "next/font/google"
@@ -18,9 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthProvider>{children}</AuthProvider>
+        <NextAuthProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </NextAuthProvider>
       </body>
     </html>
   )
 }
-

@@ -1,9 +1,8 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect, useRef } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useParams } from "next/navigation"
 import { useAuth } from "@/context/auth-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -165,15 +164,18 @@ const mockCourses: Record<string, CourseData> = {
   },
 }
 
-export default function CourseDetailPage({ params }: { params: { id: string } }) {
+export default function CourseDetailPage() {
   const { user, loading } = useAuth()
   const router = useRouter()
+  const params = useParams()
+  const courseId = params?.id as string
+
   const [course, setCourse] = useState<CourseData | null>(null)
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState("")
   const [isTyping, setIsTyping] = useState(false)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!loading && !user) {
@@ -181,14 +183,14 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
     }
 
     // Load course data
-    if (params.id && mockCourses[params.id]) {
-      setCourse(mockCourses[params.id])
+    if (courseId && mockCourses[courseId]) {
+      setCourse(mockCourses[courseId])
 
       // Initialize course-specific chat
       setMessages([
         {
           id: "1",
-          content: `Welcome to the ${mockCourses[params.id].title} chat! How can I help you with this course?`,
+          content: `Welcome to the ${mockCourses[courseId].title} chat! How can I help you with this course?`,
           sender: "ai",
           timestamp: new Date(),
         },
@@ -197,7 +199,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
       // Course not found
       router.push("/dashboard")
     }
-  }, [params.id, user, loading, router])
+  }, [courseId, user, loading, router])
 
   useEffect(() => {
     scrollToBottom()
@@ -306,7 +308,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
       setTimeout(() => {
         const aiMessage: Message = {
           id: Date.now().toString(),
-          content: `I've received your file: ${e.target.files[0].name}. How would you like me to help you with this document related to ${course.title}?`,
+          content: `I've received your file: ${e.target.files?.[0]?.name}. How would you like me to help you with this document related to ${course?.title}?`,
           sender: "ai",
           timestamp: new Date(),
         }
@@ -331,7 +333,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
           <Button onClick={() => router.push("/dashboard")}>Back to Dashboard</Button>
         </div>
 
-        {user.role === "student" && course.progress !== undefined && (
+        {user?.role === "student" && course.progress !== undefined && (
           <Card className="mb-6">
             <CardContent className="pt-6">
               <div className="space-y-2">
@@ -422,7 +424,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
                       {message.sender === "user" && (
                         <div className="flex-shrink-0 ml-3">
                           <Avatar>
-                            <AvatarFallback>{user.name.charAt(0).toUpperCase()}</AvatarFallback>
+                            <AvatarFallback>{user?.name.charAt(0).toUpperCase()}</AvatarFallback>
                           </Avatar>
                         </div>
                       )}

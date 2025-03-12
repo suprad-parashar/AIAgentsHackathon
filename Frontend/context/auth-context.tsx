@@ -1,91 +1,72 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
+import { useSession, signOut } from "next-auth/react"
+import { useRouter } from "next/navigation"
 
 interface User {
   id: string
   name: string
   email: string
   role: "student" | "professor"
+  image?: string
 }
 
 interface AuthContextType {
   user: User | null
   loading: boolean
+  logout: () => void
   login: (email: string, password: string) => Promise<void>
   signup: (name: string, email: string, password: string, role: string) => Promise<void>
-  logout: () => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const { data: session, status } = useSession()
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
+  const router = useRouter()
 
   useEffect(() => {
-    // Check if user is logged in from localStorage
-    const storedUser = localStorage.getItem("user")
-    if (storedUser) {
-      setUser(JSON.parse(storedUser))
+    if (status === "loading") {
+      setLoading(true)
+      return
     }
+
+    if (status === "authenticated" && session.user) {
+      // Create user object from session data
+      setUser({
+        id: (session.user.id as string) || "",
+        name: session.user.name || "",
+        email: session.user.email || "",
+        role: session.user.role as "student" | "professor",
+        image: session.user.image || undefined,
+      })
+    } else {
+      setUser(null)
+    }
+
     setLoading(false)
-  }, [])
+  }, [session, status])
 
+  // These functions are kept for backward compatibility with existing components
   const login = async (email: string, password: string) => {
-    // In a real app, you would make an API call to your backend
-    // This is a mock implementation for demonstration purposes
-
-    // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-
-    // Mock validation
-    if (email === "student@example.com" && password === "password") {
-      const user = {
-        id: "1",
-        name: "John Student",
-        email: "student@example.com",
-        role: "student" as const,
-      }
-      setUser(user)
-      localStorage.setItem("user", JSON.stringify(user))
-      return
-    } else if (email === "professor@example.com" && password === "password") {
-      const user = {
-        id: "2",
-        name: "Dr. Smith",
-        email: "professor@example.com",
-        role: "professor" as const,
-      }
-      setUser(user)
-      localStorage.setItem("user", JSON.stringify(user))
-      return
-    }
-
-    throw new Error("Invalid credentials")
+    console.warn("Using legacy login method - should use NextAuth signIn instead")
+    // Redirect to the login page which uses NextAuth
+    router.push("/login")
+    throw new Error("Legacy login not supported")
   }
 
   const signup = async (name: string, email: string, password: string, role: string) => {
-    // In a real app, you would make an API call to your backend
-    // This is a mock implementation for demonstration purposes
-
-    // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-
-    const newUser = {
-      id: Math.random().toString(36).substring(2, 9),
-      name,
-      email,
-      role: role as "student" | "professor",
-    }
-
-    setUser(newUser)
-    localStorage.setItem("user", JSON.stringify(newUser))
+    console.warn("Using legacy signup method - should use NextAuth signIn instead")
+    // Redirect to the login page which uses NextAuth
+    router.push("/login")
+    throw new Error("Legacy signup not supported")
   }
 
-  const logout = () => {
-    setUser(null)
-    localStorage.removeItem("user")
+  const logout = async () => {
+    await signOut({ callbackUrl: "/" })
   }
 
   return <AuthContext.Provider value={{ user, loading, login, signup, logout }}>{children}</AuthContext.Provider>
@@ -98,4 +79,3 @@ export function useAuth() {
   }
   return context
 }
-
