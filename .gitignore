@@ -12,6 +12,7 @@ Backend/LambdaZips/
 Backend/temp.*
 Backend/credentials.json
 Backend/token.json
+Backend/LambdaFunctions/
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
