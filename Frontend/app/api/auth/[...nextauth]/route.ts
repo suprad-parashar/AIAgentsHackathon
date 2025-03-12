@@ -29,6 +29,44 @@ export const authOptions: NextAuthOptions = {
       if (trigger === "update" && session?.role) {
         token.role = session.role
       }
+
+      // If this is a sign-in event, check if user exists and get role
+      if (trigger === "signIn" && account?.provider === "google") {
+        try {
+          // First, store the user in the database (this will be a no-op if user exists)
+          await fetch(`${process.env.FASTAPI_URL}/auth/google`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: token.email,
+              name: token.name,
+            }),
+          })
+
+          // Then, check if the user has a role
+          const roleResponse = await fetch(
+            `${process.env.FASTAPI_URL}/users/role?email=${encodeURIComponent(token.email as string)}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            },
+          )
+
+          if (roleResponse.ok) {
+            const data = await roleResponse.json()
+            if (data.role) {
+              token.role = data.role
+            }
+          }
+        } catch (error) {
+          console.error("Error during API calls:", error)
+        }
+      }
+
       return token
     },
   },
