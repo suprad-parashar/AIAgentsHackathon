@@ -1,12 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import {useState} from "react"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { useAuth } from "@/context/auth-context"
+import {Button} from "@/components/ui/button"
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card"
+import {useAuth} from "@/context/auth-context"
 import DashboardLayout from "./dashboard-layout"
-import { useRouter } from "next/navigation"
+import {useRouter} from "next/navigation"
 
 interface Course {
   id: string
@@ -25,9 +25,9 @@ interface Assignment {
 }
 
 const mockCourses: Course[] = [
-  { id: "1", title: "Introduction to Computer Science", students: 45, status: "active" },
-  { id: "2", title: "Advanced Programming", students: 32, status: "active" },
-  { id: "3", title: "Data Structures", students: 28, status: "draft" },
+  {id: "1", title: "Introduction to Computer Science", students: 45, status: "active"},
+  {id: "2", title: "Advanced Programming", students: 32, status: "active"},
+  {id: "3", title: "Data Structures", students: 28, status: "draft"},
 ]
 
 const mockAssignments: Assignment[] = [
@@ -57,8 +57,8 @@ const mockAssignments: Assignment[] = [
   },
 ]
 
-export default function ProfessorDashboard({ user, initialTab = "overview" }: { user: any; initialTab?: string }) {
-  const { logout } = useAuth()
+export default function ProfessorDashboard({user, initialTab = "overview"}: { user: any; initialTab?: string }) {
+  const {logout} = useAuth()
   const [courses] = useState<Course[]>(mockCourses)
   const [assignments] = useState<Assignment[]>(mockAssignments)
   const router = useRouter()
@@ -72,7 +72,6 @@ export default function ProfessorDashboard({ user, initialTab = "overview" }: { 
             <Button onClick={() => router.push("/dashboard/create-course")}>Create New Course</Button>
           </div>
         </div>
-
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {courses.map((course) => (
             <Card key={course.id}>
@@ -84,15 +83,16 @@ export default function ProfessorDashboard({ user, initialTab = "overview" }: { 
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-500">Status</span>
                   <span
-                    className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${course.status === "active"
+                    className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                      course.status === "active"
                         ? "bg-green-100 text-green-800"
                         : course.status === "draft"
                           ? "bg-yellow-100 text-yellow-800"
                           : "bg-gray-100 text-gray-800"
-                      }`}
+                    }`}
                   >
-                    {course.status.charAt(0).toUpperCase() + course.status.slice(1)}
-                  </span>
+                        {course.status.charAt(0).toUpperCase() + course.status.slice(1)}
+                      </span>
                 </div>
                 <div className="flex space-x-2">
                   <Button variant="outline" className="flex-1">

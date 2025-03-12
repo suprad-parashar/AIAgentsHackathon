@@ -1,11 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import {useState} from "react"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useAuth } from "@/context/auth-context"
+import {Button} from "@/components/ui/button"
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card"
+import {useAuth} from "@/context/auth-context"
 import DashboardLayout from "./dashboard-layout"
 
 interface Course {
@@ -24,9 +23,9 @@ interface Assignment {
 }
 
 const mockCourses: Course[] = [
-  { id: "1", title: "Introduction to Computer Science", instructor: "Dr. Smith", progress: 65 },
-  { id: "2", title: "Calculus I", instructor: "Dr. Johnson", progress: 42 },
-  { id: "3", title: "Physics 101", instructor: "Dr. Williams", progress: 78 },
+  {id: "1", title: "Introduction to Computer Science", instructor: "Dr. Smith", progress: 65},
+  {id: "2", title: "Calculus I", instructor: "Dr. Johnson", progress: 42},
+  {id: "3", title: "Physics 101", instructor: "Dr. Williams", progress: 78},
 ]
 
 const mockAssignments: Assignment[] = [
@@ -37,12 +36,12 @@ const mockAssignments: Assignment[] = [
     dueDate: "2023-04-15",
     status: "completed",
   },
-  { id: "2", title: "Problem Set 3", course: "Calculus I", dueDate: "2023-04-20", status: "pending" },
-  { id: "3", title: "Lab Report 2", course: "Physics 101", dueDate: "2023-04-10", status: "overdue" },
+  {id: "2", title: "Problem Set 3", course: "Calculus I", dueDate: "2023-04-20", status: "pending"},
+  {id: "3", title: "Lab Report 2", course: "Physics 101", dueDate: "2023-04-10", status: "overdue"},
 ]
 
-export default function StudentDashboard({ user, initialTab = "overview" }: { user: any; initialTab?: string }) {
-  const { logout } = useAuth()
+export default function StudentDashboard({user, initialTab = "overview"}: { user: any; initialTab?: string }) {
+  const {logout} = useAuth()
   const [courses] = useState<Course[]>(mockCourses)
   const [assignments] = useState<Assignment[]>(mockAssignments)
 
@@ -69,7 +68,7 @@ export default function StudentDashboard({ user, initialTab = "overview" }: { us
                     <span className="text-sm font-medium">{course.progress}%</span>
                   </div>
                   <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
-                    <div className="h-full bg-primary" style={{ width: `${course.progress}%` }}></div>
+                    <div className="h-full bg-primary" style={{width: `${course.progress}%`}}></div>
                   </div>
                 </div>
                 <Link href={`/dashboard/courses/${course.id}`}>

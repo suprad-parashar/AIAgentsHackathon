@@ -31,37 +31,30 @@ export default function RoleSelectionPage() {
     e.preventDefault()
     setIsSubmitting(true)
     setError(null)
-  
+
     try {
-      const payload = {
-        name: session?.user?.name,
-        email: session?.user?.email,
-        role: role,
-      }
-  
-      console.log("Request payload:", payload)
-  
       // Call the FastAPI endpoint to store the role
       const response = await fetch(`${process.env.NEXT_PUBLIC_FASTAPI_URL}/users/role`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          name: session?.user?.name,
+          email: session?.user?.email,
+          role: role,
+        }),
       })
-  
-      const responseData = await response.json()
-      console.log("Response data:", responseData)
-  
+
       if (!response.ok) {
         throw new Error("Failed to update role")
       }
-  
+
       // Update the session with the selected role
       await update({
         role: role,
       })
-  
+
       // Redirect to dashboard after role selection
       router.push("/dashboard")
     } catch (error) {
@@ -71,7 +64,7 @@ export default function RoleSelectionPage() {
       setIsSubmitting(false)
     }
   }
-  
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <Card className="w-full max-w-md">
