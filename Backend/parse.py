@@ -2,7 +2,7 @@ import textract, validators
 from youtube_transcript_api import YouTubeTranscriptApi
 from urllib.parse import urlparse, parse_qs
 from bs4 import BeautifulSoup
-import json, os, requests, random
+import os, requests, random
 
 random.seed(42)
 
@@ -81,18 +81,7 @@ def check_link_content(link):
     
     elif "text/html" in content_type:
         return parse_web_content(response)
-    
-    # elif "application/msword" in content_type:
-    #     file_name = f'file_{random.randint(0, 1000)}.doc'
-    #     with open(file_name, "wb") as file:
-    #         for chunk in response.iter_content(chunk_size=8192):
-    #             file.write(chunk)
-    #     print(f"✅ Doc downloaded successfully: {'./'}")
-    #     out = parse_docx_file(file_name)
-    #     if os.path.exists(file_name):
-    #         os.remove(file_name)
-    #     return out
-    
+
     elif "application/vnd.openxmlformats-officedocument.wordprocessingml.document" in content_type:
         file_name = f'file_{random.randint(0, 1000)}.docx'
         with open(file_name, "wb") as file:
@@ -119,11 +108,8 @@ def main(input_path):
         return parse_docx_file(input_path)
     elif input_path.endswith('.pdf'):
         return parse_pdf_file(input_path)
-    # elif input_path.endswith('.doc'):
-    #     return parse_docx_file(input_path)
     else:
-        return {"link": input_path, 
-                "type": "Error: Unsupported file type."}
+        return {"link": input_path, "type": "Error: Unsupported file type."}
     
 if __name__=="__main__":
     pass
