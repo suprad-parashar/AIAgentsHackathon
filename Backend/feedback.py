@@ -1,7 +1,7 @@
 import google.generativeai as genai
 from elasticsearch import Elasticsearch
 from sentence_transformers import SentenceTransformer
-import os, validators, base64
+import os, base64
 from dotenv import load_dotenv
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
@@ -9,7 +9,7 @@ from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from email.mime.text import MIMEText
 
-from parse import parse_text_file, parse_docx_file, parse_pdf_file, check_link_content
+from parse import main as parse_docs
 
 load_dotenv()
 
@@ -138,18 +138,7 @@ def send_email(student_email, student_name, grade, feedback):
 
 def extract_text_from_source(file_or_link):
     """Extracts text from a given file path or link."""
-    if validators.url(file_or_link):
-        return check_link_content(file_or_link)
-    else:
-        ext = os.path.splitext(file_or_link)[1].lower()
-        if ext == ".pdf":
-            return parse_pdf_file(file_or_link)
-        elif ext == ".docx":
-            return parse_docx_file(file_or_link)
-        elif ext == ".txt":
-            return parse_text_file(file_or_link)
-        else:
-            return {"link": file_or_link, "type": "Error: Unsupported file type", "content": "N/A"}
+    return parse_docs(file_or_link)
 
 def retrieve_relevant_material(question_text):
     """Retrieves top relevant course materials from Elasticsearch using similarity search."""

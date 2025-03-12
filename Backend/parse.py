@@ -1,4 +1,4 @@
-import textract, validators
+import fitz, validators
 from youtube_transcript_api import YouTubeTranscriptApi
 from urllib.parse import urlparse, parse_qs
 from bs4 import BeautifulSoup
@@ -11,14 +11,11 @@ def parse_text_file(file_path):
         text = file.read()
     return {"link": file_path, "type": "plaintext", "content": text.strip()}
     
-def parse_docx_file(file_path):
-    text = textract.process(file_path)
-    text = text.decode("utf-8")
-    return {"link": file_path, "type": "plaintext", "content": text.strip()}
-
-def parse_pdf_file(file_path):
-    text = textract.process(file_path, method='pdfminer')
-    text = text.decode("utf-8")
+def parse_docs(file_path):
+    docs = fitz.open(file_path)
+    text = ""
+    for page in docs:
+        text += page.get_text()
     return {"link": file_path, "type": "plaintext", "content": text.strip()}
 
 def youtube_transcript(link):
@@ -63,7 +60,7 @@ def check_link_content(link):
             for chunk in response.iter_content(chunk_size=8192):
                 file.write(chunk)
         print(f"✅ PDF downloaded successfully: {'./'}")
-        out = parse_pdf_file(file_name)
+        out = parse_docs(file_name)
         if os.path.exists(file_name):
             os.remove(file_name)
         return out
@@ -88,7 +85,7 @@ def check_link_content(link):
             for chunk in response.iter_content(chunk_size=8192):
                 file.write(chunk)
         print(f"✅ Docx downloaded successfully: {'./'}")
-        out = parse_docx_file(file_name)
+        out = parse_docs(file_name)
         if os.path.exists(file_name):
             os.remove(file_name)
         return out
@@ -104,10 +101,8 @@ def main(input_path):
         return check_link_content(input_path)
     if input_path.endswith('.txt'):
         return parse_text_file(input_path)
-    elif input_path.endswith('.docx'):
-        return parse_docx_file(input_path)
-    elif input_path.endswith('.pdf'):
-        return parse_pdf_file(input_path)
+    elif input_path.endswith('.docx') or input_path.endswith('.pdf'):
+        return parse_docs(input_path)
     else:
         return {"link": input_path, "type": "Error: Unsupported file type."}
     

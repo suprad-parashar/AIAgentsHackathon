@@ -1,7 +1,6 @@
-pip==23.1
+pymupdf
 google-genai
 google-generativeai
-textract
 python-dotenv
 fastapi[standard]
 openai
