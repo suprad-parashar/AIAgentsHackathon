@@ -58,7 +58,7 @@ def check_link_content(link):
         return youtube_transcript(parsed_url)
 
     if "application/pdf" in content_type:
-        file_name = f'file_{random.randint(0, 1000)}.pdf'
+        file_name = f'/tmp/file_{random.randint(0, 1000)}.pdf'
         with open(file_name, "wb") as file:
             for chunk in response.iter_content(chunk_size=8192):
                 file.write(chunk)
@@ -69,7 +69,7 @@ def check_link_content(link):
         return out
     
     elif "text/plain" in content_type:
-        file_name = f'file_{random.randint(0, 1000)}.txt'
+        file_name = f'/tmp/file_{random.randint(0, 1000)}.txt'
         with open(file_name, "wb") as file:
             for chunk in response.iter_content(chunk_size=8192):
                 file.write(chunk)
@@ -83,7 +83,7 @@ def check_link_content(link):
         return parse_web_content(response)
     
     elif "application/vnd.openxmlformats-officedocument.wordprocessingml.document" in content_type:
-        file_name = f'file_{random.randint(0, 1000)}.docx'
+        file_name = f'/tmp/file_{random.randint(0, 1000)}.docx'
         with open(file_name, "wb") as file:
             for chunk in response.iter_content(chunk_size=8192):
                 file.write(chunk)
@@ -99,7 +99,7 @@ def check_link_content(link):
 
 
 def lambda_handler(event, context):
-    input_path = event["input_path"]
+    input_path = event["inputText"]
     if validators.url(input_path) is True:
         out = check_link_content(input_path)
     if input_path.endswith('.txt'):
@@ -111,7 +111,21 @@ def lambda_handler(event, context):
     else:
         out = {"link": input_path, 
                 "type": "Error: Unsupported file type."}
-    return {
-        "statusCode": 200,
-        "body": json.dumps(out)
+
+    api_response = {
+        'messageVersion': '1.0', 
+        'response': {
+            'actionGroup': event['actionGroup'],
+            'apiPath': event['apiPath'],
+            'httpMethod': event['httpMethod'],
+            'httpStatusCode': 200,
+            'responseBody': {
+                'application/json': {
+                    'body': f"{out}"
+                }
+            }
+        },
+        'sessionAttributes': event['sessionAttributes'],
+        'promptSessionAttributes': event['promptSessionAttributes']
     }
+    return api_response
