@@ -6,13 +6,11 @@ users = Table(
     "users",
     metadata,
     Column("id", Integer, primary_key=True),
-    Column("first_name", String(255), nullable=False),
-    Column("last_name", String(255), nullable=False),
+    Column("name", String(255), nullable=False),
     Column("email", String(255), unique=True, nullable=False),
-    Column("password", String(255), nullable=False),
     Column("bio", Text),
-    Column("department_or_major", String(255)),
-    Column("role", String(50), CheckConstraint("role IN ('student', 'prof')")),
+    Column("department_or_major", String(255), nullable=False),
+    Column("role", String(50), CheckConstraint("role IN ('student', 'professor')"), nullable=False),
 )
 
 courses = Table(
