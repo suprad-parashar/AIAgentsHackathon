@@ -40,6 +40,7 @@ export const authOptions: NextAuthOptions = {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
+              id: token.sub,
               email: token.email,
               name: token.name,
             }),

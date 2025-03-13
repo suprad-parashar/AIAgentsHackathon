@@ -40,6 +40,7 @@ export default function RoleSelectionPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          id: session?.user?.id,
           name: session?.user?.name,
           email: session?.user?.email,
           role: role,

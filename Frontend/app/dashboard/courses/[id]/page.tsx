@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Progress } from "@/components/ui/progress"
 import { Bot, FileText, Send, Upload } from "lucide-react"
 import DashboardLayout from "@/components/dashboard-layout"
 import LoadingSpinner from "@/components/loading-spinner"
@@ -44,20 +43,18 @@ interface CourseData {
   title: string
   description: string
   instructor: string
-  progress?: number
   modules: CourseModule[]
   participants: CourseParticipant[]
 }
 
 // Mock course data
 const mockCourses: Record<string, CourseData> = {
-  "1": {
+  "5": {
     id: "1",
     title: "Introduction to Computer Science",
     description:
       "This course provides a comprehensive introduction to computer science, covering fundamental concepts, programming basics, and problem-solving techniques.",
     instructor: "Dr. Smith",
-    progress: 65,
     modules: [
       {
         id: "m1",
@@ -88,13 +85,12 @@ const mockCourses: Record<string, CourseData> = {
       { id: "p5", name: "Michael Brown", role: "student" },
     ],
   },
-  "2": {
+  "6": {
     id: "2",
     title: "Calculus I",
     description:
       "An introduction to differential and integral calculus, covering limits, derivatives, and basic integration techniques.",
     instructor: "Dr. Johnson",
-    progress: 42,
     modules: [
       {
         id: "m1",
@@ -123,43 +119,6 @@ const mockCourses: Record<string, CourseData> = {
       { id: "p3", name: "John Student", role: "student" },
       { id: "p4", name: "Sarah Parker", role: "student" },
       { id: "p5", name: "David Miller", role: "student" },
-    ],
-  },
-  "3": {
-    id: "3",
-    title: "Physics 101",
-    description:
-      "An introductory course covering the fundamental principles of physics, including mechanics, energy, and waves.",
-    instructor: "Dr. Williams",
-    progress: 78,
-    modules: [
-      {
-        id: "m1",
-        title: "Module 1: Mechanics",
-        description: "Study of motion, forces, and energy.",
-        materials: [
-          { id: "m1-1", title: "Lecture 1: Newton's Laws", type: "pdf" },
-          { id: "m1-2", title: "Lecture 2: Work and Energy", type: "pdf" },
-          { id: "m1-3", title: "Lab 1: Force Measurement", type: "quiz" },
-        ],
-      },
-      {
-        id: "m2",
-        title: "Module 2: Waves and Oscillations",
-        description: "Understanding wave phenomena and oscillatory motion.",
-        materials: [
-          { id: "m2-1", title: "Lecture 3: Simple Harmonic Motion", type: "pdf" },
-          { id: "m2-2", title: "Lecture 4: Wave Properties", type: "video" },
-          { id: "m2-3", title: "Lab 2: Pendulum Experiment", type: "quiz" },
-        ],
-      },
-    ],
-    participants: [
-      { id: "p1", name: "Dr. Williams", role: "professor" },
-      { id: "p2", name: "Jennifer Adams", role: "ta" },
-      { id: "p3", name: "John Student", role: "student" },
-      { id: "p4", name: "Thomas Green", role: "student" },
-      { id: "p5", name: "Lisa Chen", role: "student" },
     ],
   },
 }
@@ -332,20 +291,6 @@ export default function CourseDetailPage() {
           </div>
           <Button onClick={() => router.push("/dashboard")}>Back to Dashboard</Button>
         </div>
-
-        {user.role === "student" && course.progress !== undefined && (
-          <Card className="mb-6">
-            <CardContent className="pt-6">
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Course Progress</span>
-                  <span className="text-sm font-medium">{course.progress}%</span>
-                </div>
-                <Progress value={course.progress} className="h-2" />
-              </div>
-            </CardContent>
-          </Card>
-        )}
 
         <Tabs defaultValue="content" className="space-y-4">
           <TabsList>
