@@ -25,6 +25,7 @@ Frontend/!.yarn/patches
 Frontend/!.yarn/plugins
 Frontend/!.yarn/releases
 Frontend/!.yarn/versions
+Frontend/.env.local
 
 # testing
 Frontend/coverage

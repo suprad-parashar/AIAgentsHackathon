@@ -1,51 +1,69 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, Query
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from database import database
-from models import users, courses, resources, enrollments, teaches
+from models import users
 from sqlalchemy import select
+from fastapi.responses import JSONResponse
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Adjust this to your frontend URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 class UserDetails(BaseModel):
-    first_name: str
-    last_name: str
-    email: str
-    password: str
-    bio: str = None
-    department_or_major: str = None
-    role: str
-
-class CourseDetails(BaseModel):
     name: str
-    course_number: str
-    structure: str = None
-
-class ResourceDetails(BaseModel):
-    course_id: int
-    link: str
-
-class EnrollmentDetails(BaseModel):
-    user_id: int
-    course_id: int
-
-class TeachesDetails(BaseModel):
-    user_id: int
-    course_id: int
+    email: str
+    role: str = None
 
 @app.on_event("startup")
 async def startup():
-    await database.connect()
+    if not database.is_connected:
+        await database.connect()
 
 @app.on_event("shutdown")
 async def shutdown():
-    await database.disconnect()
+    if database.is_connected:
+        await database.disconnect()
 
-@app.post("/store-user")
+@app.post("/auth/google")
 async def store_user(user: UserDetails):
+    if not database.is_connected:
+        await database.connect()  # Ensure database connection is available
+
     query = users.select().where(users.c.email == user.email)
     existing_user = await database.fetch_one(query)
+
     if existing_user:
-        raise HTTPException(status_code=400, detail="User already exists")
-    query = users.insert().values(**user.model_dump())
+        return JSONResponse(status_code=200, content={"message": "User already exists"})
+
+    query = users.insert().values(name=user.name, email=user.email, role=None)
     await database.execute(query)
-    return {"message": "User stored successfully"}
+    return JSONResponse(status_code=201, content={"message": "User stored successfully"})
+
+@app.get("/users/role")
+async def get_user_role(email: str = Query(...)):
+    if not database.is_connected:
+        await database.connect()
+
+    query = users.select().where(users.c.email == email)
+    user = await database.fetch_one(query)
+
+    if not user:
+        return JSONResponse(status_code=200, content={"role": None})  # Return None if no role
+
+    return {"role": user["role"]}
+
+@app.post("/users/role")
+async def store_role(user: UserDetails):
+    if not database.is_connected:
+        await database.connect()
+
+    query = users.update().where(users.c.email == user.email).values(role=user.role)
+    await database.execute(query)
+    return {"message": "Role stored successfully"}

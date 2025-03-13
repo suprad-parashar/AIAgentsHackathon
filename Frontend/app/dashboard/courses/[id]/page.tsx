@@ -308,7 +308,7 @@ export default function CourseDetailPage() {
       setTimeout(() => {
         const aiMessage: Message = {
           id: Date.now().toString(),
-          content: `I've received your file: ${e.target.files?.[0]?.name}. How would you like me to help you with this document related to ${course?.title}?`,
+          content: `I've received your file: ${e.target.files[0].name}. How would you like me to help you with this document related to ${course?.title}?`,
           sender: "ai",
           timestamp: new Date(),
         }
@@ -333,7 +333,7 @@ export default function CourseDetailPage() {
           <Button onClick={() => router.push("/dashboard")}>Back to Dashboard</Button>
         </div>
 
-        {user?.role === "student" && course.progress !== undefined && (
+        {user.role === "student" && course.progress !== undefined && (
           <Card className="mb-6">
             <CardContent className="pt-6">
               <div className="space-y-2">
@@ -424,7 +424,7 @@ export default function CourseDetailPage() {
                       {message.sender === "user" && (
                         <div className="flex-shrink-0 ml-3">
                           <Avatar>
-                            <AvatarFallback>{user?.name.charAt(0).toUpperCase()}</AvatarFallback>
+                            <AvatarFallback>{user.name.charAt(0).toUpperCase()}</AvatarFallback>
                           </Avatar>
                         </div>
                       )}

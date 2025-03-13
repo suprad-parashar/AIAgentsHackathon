@@ -16,6 +16,7 @@ export default function RoleSelectionPage() {
   const router = useRouter()
   const [role, setRole] = useState<string>("student")
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   if (status === "loading") {
     return <LoadingSpinner />
@@ -29,8 +30,26 @@ export default function RoleSelectionPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setError(null)
 
     try {
+      // Call the FastAPI endpoint to store the role
+      const response = await fetch(`${process.env.NEXT_PUBLIC_FASTAPI_URL}/users/role`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: session?.user?.name,
+          email: session?.user?.email,
+          role: role,
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error("Failed to update role")
+      }
+
       // Update the session with the selected role
       await update({
         role: role,
@@ -40,6 +59,7 @@ export default function RoleSelectionPage() {
       router.push("/dashboard")
     } catch (error) {
       console.error("Error updating role:", error)
+      setError("Failed to update role. Please try again.")
     } finally {
       setIsSubmitting(false)
     }
@@ -58,6 +78,8 @@ export default function RoleSelectionPage() {
               <p>Welcome, {session?.user?.name}!</p>
               <p className="text-gray-500">Please select your role to continue</p>
             </div>
+
+            {error && <div className="p-3 text-sm text-white bg-red-500 rounded mb-4">{error}</div>}
 
             <RadioGroup value={role} onValueChange={setRole} className="space-y-4">
               <div className="flex items-start space-x-3 border p-4 rounded-lg hover:bg-gray-50 cursor-pointer">
