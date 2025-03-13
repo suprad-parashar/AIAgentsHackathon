@@ -19,3 +19,8 @@ SQLAlchemy
 databases
 asyncpg
 boto3
+langchain
+langchain-groq
+composio-langchain
+icalendar
+langchain-google-genai

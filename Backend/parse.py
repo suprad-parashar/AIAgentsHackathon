@@ -93,7 +93,7 @@ def check_link_content(link):
     else:
         return {"link": link, "type": "Error: Unsupported content type."}
 
-def main(input_path):
+def parse_data(input_path):
     """
     main function
     """

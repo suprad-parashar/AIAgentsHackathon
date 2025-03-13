@@ -9,7 +9,7 @@ from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from email.mime.text import MIMEText
 
-from parse import main as parse_docs
+from parse import parse_data as parse_docs
 
 load_dotenv()
 
