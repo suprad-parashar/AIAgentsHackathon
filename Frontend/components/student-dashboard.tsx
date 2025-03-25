@@ -62,12 +62,12 @@ export default function StudentDashboard() {
                   <CardDescription>Course Number: {course.course_number}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-500">Structure</span>
-                      <span className="text-sm font-medium">{course.structure}</span>
-                    </div>
-                  </div>
+                  {/*<div className="space-y-2">*/}
+                  {/*  <div className="flex items-center justify-between">*/}
+                  {/*    <span className="text-sm text-gray-500">Structure</span>*/}
+                  {/*    <span className="text-sm font-medium">{course.structure}</span>*/}
+                  {/*  </div>*/}
+                  {/*</div>*/}
                   <Link href={`/dashboard/courses/${course.id}`}>
                     <Button variant="outline" className="w-full">
                       View Course

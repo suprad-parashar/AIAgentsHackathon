@@ -105,7 +105,42 @@ export default function ChatPage() {
           "I'd be happy to help with your assignment. Could you provide more details about what you're working on?",
         exam: "Preparing for an exam? I can help you review key concepts, create practice questions, or develop study strategies.",
         default:
-          "I'm here to help with your academic questions. Feel free to ask about course concepts, assignments, or study strategies!",
+          "Based on the search results and common recommendations, here are some of the best places to study on campus:\n" +
+          "\n" +
+          "1. Campus Library\n" +
+          "   - Offers a quiet environment with various study spaces\n" +
+          "   - Access to resources and reference materials\n" +
+          "   - Often has private study rooms or carrels that can be reserved\n" +
+          "   - Provides a focused atmosphere conducive to studying\n" +
+          "\n" +
+          "2. Empty Classrooms\n" +
+          "   - Quiet and distraction-free\n" +
+          "   - Plenty of desk space\n" +
+          "   - Good for individual or group study sessions\n" +
+          "\n" +
+          "3. Student Lounges or Common Spaces\n" +
+          "   - Comfortable seating options\n" +
+          "   - Often less crowded than libraries\n" +
+          "   - Can provide a change of scenery from dorm rooms\n" +
+          "\n" +
+          "4. Coffee Shops on Campus\n" +
+          "   - Offer a relaxed atmosphere with background noise\n" +
+          "   - Access to caffeine and snacks\n" +
+          "   - Can be good for light studying or reading\n" +
+          "\n" +
+          "5. Outdoor Spaces (weather permitting)\n" +
+          "   - Fresh air can help with focus and productivity\n" +
+          "   - Campus quads or green spaces can be peaceful study spots\n" +
+          "\n" +
+          "6. Dorm Study Rooms or Common Areas\n" +
+          "   - Convenient for residents\n" +
+          "   - Often quieter than individual dorm rooms\n" +
+          "\n" +
+          "7. Academic Building Lobbies or Atriums\n" +
+          "   - Can provide a different environment from typical study spots\n" +
+          "   - Often have tables and seating areas\n" +
+          "\n" +
+          "The best study spot will vary depending on individual preferences and study needs. It's recommended to try different locations to find what works best for you in terms of noise level, comfort, and productivity.",
       }
 
       // Find a matching response or use default

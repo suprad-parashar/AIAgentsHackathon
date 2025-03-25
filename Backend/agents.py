@@ -70,7 +70,7 @@ def get_db_agent():
     # llm = ChatGroq(temperature=0, groq_api_key=os.getenv("GROQ_API_KEY"), model_name=os.getenv("GROQ_MODEL"))
     llm = LLM
     tools = [
-        create_tool(index_course_material, "Index Course Material", "Index course material in Elasticsearch"),
+        create_tool(index_course_material, "Index Course Material", "Index any text extracted from course material into Elasticsearch"),
         create_tool(extract_text_from_source, "Extract Text from Source", "Extract text from a file path or link"),
         create_tool(retrieve_relevant_material, "Retrieve Relevant Material", "Retrieve relevant course materials from Elasticsearch using similarity search"),
         create_tool(grade_answers, "Grade Answers", "Grade answers based on rubric and retrieved materials"),
@@ -102,7 +102,10 @@ def get_google_agent():
 
 if __name__ == "__main__":
     google_agent = get_google_agent()
-    format = [
+    resource_agent = get_resource_agent()
+    parse_agent = get_parse_agent()
+    db_agent = get_db_agent()
+    google_agent_format = [
         {
             "function": "create_study_event",
             "parameters": {
@@ -132,5 +135,76 @@ if __name__ == "__main__":
             }
         }
     ]
-    format_str = json.dumps(format)
-    google_agent.run(f"{format_str}. Remind me to study Machine Learning on the upcoming Friday at 3pm for 2 hours")
+    resource_agent_format = [
+        {
+            "function": "get_external_resources",
+            "parameters": {
+                "topic": "str"
+            }
+        },
+        {
+            "function": "get_asu_resources",
+            "parameters": {
+                "prompt": "str"
+            }
+        }
+    ]
+    parse_agent_format = [
+        {
+            "function": "parse_data",
+            "parameters": {
+                "input_path": "str"
+            }
+        },
+        {
+            "function": "parse_summary",
+            "parameters": {
+                "summary": "str"
+            }
+        }
+    ]
+    db_agent_format = [
+        {
+            "function": "index_course_material",
+            "parameters": {
+                "data": "str",
+            }
+        },
+        {
+            "function": "extract_text_from_source",
+            "parameters": {
+                "file_or_link": "str"
+            }
+        },
+        {
+            "function": "retrieve_relevant_material",
+            "parameters": {
+                "question_text": "str"
+            }
+        },
+        {
+            "function": "grade_answers",
+            "parameters": {
+                "question_text": "str",
+                "rubric": "str",
+                "student_answers": "str",
+                "course_materials": "str"
+            }
+        },
+        {
+            "function": "provide_feedback",
+            "parameters": {
+                "question_text": "str",
+                "student_answers": "str",
+                "course_materials": "str"
+            }
+        }
+    ]
+    # google_agent_format_str = json.dumps(google_agent_format)
+    # google_agent.run(f"{google_agent_format_str}. Remind me to study Machine Learning on the upcoming Friday at 3pm for 2 hours")
+    # resource_agent_format_str = json.dumps(resource_agent_format)
+    # resource_agent.run(f"{resource_agent_format_str}. Suggest some resources to learn Machine Learning")
+    # parse_agent_format_str = json.dumps(parse_agent_format)
+    # parse_agent.run(f"{parse_agent_format_str}. What does this file talk about? https://github.com/suprad-parashar/AIAgentsHackathon/blob/main/Backend/agents.py")
+    db_agent_format_str = json.dumps(db_agent_format)
+    db_agent.run(f"{db_agent_format_str}. Can you give me an overview of the material in https://learning-asu.simplesyllabus.com/api2/doc-pdf/po83vht0c/Fall-C-2024-CSE-110-6765-.pdf")

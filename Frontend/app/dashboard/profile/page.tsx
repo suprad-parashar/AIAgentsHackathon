@@ -70,8 +70,9 @@ export default function ProfilePage() {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          id: user.id,
+          email: user.email,
           name: profileData.name,
-          email: profileData.email,
           bio: profileData.bio,
           department_or_major: profileData.department,
         }),

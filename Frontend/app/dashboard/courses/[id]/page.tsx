@@ -28,6 +28,7 @@ interface CourseModule {
     id: string
     title: string
     type: "pdf" | "video" | "quiz"
+    url?: string
   }[]
 }
 
@@ -50,7 +51,7 @@ interface CourseData {
 // Mock course data
 const mockCourses: Record<string, CourseData> = {
   "5": {
-    id: "1",
+    id: "5",
     title: "Introduction to Computer Science",
     description:
       "This course provides a comprehensive introduction to computer science, covering fundamental concepts, programming basics, and problem-solving techniques.",
@@ -61,9 +62,9 @@ const mockCourses: Record<string, CourseData> = {
         title: "Module 1: Introduction to Programming",
         description: "Learn the basics of programming concepts and syntax.",
         materials: [
-          { id: "m1-1", title: "Lecture 1: Programming Fundamentals", type: "pdf" },
-          { id: "m1-2", title: "Lecture 2: Variables and Data Types", type: "pdf" },
-          { id: "m1-3", title: "Programming Exercise 1", type: "quiz" },
+          { id: "m1-1", title: "Lecture 1: Programming Fundamentals", type: "pdf", url: "https://learning-asu.simplesyllabus.com/api2/doc-pdf/po83vht0c/Fall-C-2024-CSE-110-6765-.pdf" },
+          { id: "m1-2", title: "Lecture 2: Variables and Data Types", type: "pdf", url: "https://web.stanford.edu/class/cs110/lectures/cs110-win2122-lecture-1.pdf" },
+          { id: "m1-3", title: "Programming Exercise 1", type: "quiz", url: "https://web.stanford.edu/class/cs110/lectures/cs110-win2122-lecture-1.pdf" },
         ],
       },
       {
@@ -71,9 +72,9 @@ const mockCourses: Record<string, CourseData> = {
         title: "Module 2: Control Structures",
         description: "Understand how to control program flow with conditionals and loops.",
         materials: [
-          { id: "m2-1", title: "Lecture 3: Conditional Statements", type: "pdf" },
-          { id: "m2-2", title: "Lecture 4: Loops and Iterations", type: "video" },
-          { id: "m2-3", title: "Programming Exercise 2", type: "quiz" },
+          { id: "m2-1", title: "Lecture 3: Conditional Statements", type: "pdf", url: "https://web.stanford.edu/class/cs110/lectures/cs110-win2122-lecture-1.pdf" },
+          { id: "m2-2", title: "Lecture 4: Loops and Iterations", type: "video", url: "https://web.stanford.edu/class/cs110/lectures/cs110-win2122-lecture-1.pdf" },
+          { id: "m2-3", title: "Programming Exercise 2", type: "quiz", url: "https://web.stanford.edu/class/cs110/lectures/cs110-win2122-lecture-1.pdf" },
         ],
       },
     ],
@@ -86,7 +87,7 @@ const mockCourses: Record<string, CourseData> = {
     ],
   },
   "6": {
-    id: "2",
+    id: "6",
     title: "Calculus I",
     description:
       "An introduction to differential and integral calculus, covering limits, derivatives, and basic integration techniques.",
@@ -189,7 +190,7 @@ export default function CourseDetailPage() {
     setTimeout(() => {
       // Course-specific responses based on the course ID
       const courseResponses: Record<string, Record<string, string>> = {
-        "1": {
+        "5": {
           // Computer Science
           assignment:
             "For the current programming assignment, you need to implement a simple algorithm using loops and conditionals. Would you like me to explain any specific part?",
@@ -198,30 +199,80 @@ export default function CourseDetailPage() {
           module:
             "This course has two modules: Introduction to Programming and Control Structures. Which one are you asking about?",
           default:
-            "I can help you with programming concepts, assignments, or understanding the lecture materials for this Computer Science course.",
+            "Programming fundamentals are the foundational concepts and principles that guide how we write and structure code. These concepts are applicable across different programming languages and form the building blocks for more advanced programming techniques. Here are some key programming fundamentals:\n" +
+            "\n" +
+            "Variables and Data Types:\n" +
+            "\n" +
+            "Variables are used to store data, and data types define the kind of data a variable can hold (e.g., integers, floating-point numbers, strings, booleans).\n" +
+            "Understanding how to choose the right data type for the task is essential for writing efficient code.\n" +
+            "Control Structures:\n" +
+            "\n" +
+            "These include conditionals (like if, else, switch) that help decide which code to execute based on certain conditions.\n" +
+            "Loops (e.g., for, while) allow code to run repeatedly, useful for tasks like iterating through data or handling repetitive tasks.\n" +
+            "Functions (or Methods):\n" +
+            "\n" +
+            "Functions are blocks of code that perform a specific task and can be reused throughout a program.\n" +
+            "Functions help in organizing code, reducing redundancy, and enhancing readability. Parameters and return values are key to how functions interact with other parts of the program.\n" +
+            "Arrays and Lists:\n" +
+            "\n" +
+            "These are data structures that store multiple values in a single variable. Arrays are fixed-size, while lists can grow dynamically.\n" +
+            "Arrays and lists are essential for working with collections of data efficiently.\n" +
+            "Object-Oriented Programming (OOP):\n" +
+            "\n" +
+            "This programming paradigm uses \"objects\" to represent real-world entities, combining data (attributes) and functions (methods) that act on that data.\n" +
+            "Core OOP concepts include classes, inheritance, polymorphism, encapsulation, and abstraction, which help in designing scalable, reusable, and maintainable systems.\n" +
+            "Algorithms:\n" +
+            "\n" +
+            "Algorithms are step-by-step instructions used to perform a task or solve a problem. Understanding how to write and optimize algorithms is key to solving complex programming challenges.\n" +
+            "Common algorithms include sorting, searching, and recursive algorithms.\n" +
+            "Error Handling:\n" +
+            "\n" +
+            "It’s important to handle errors in a way that prevents a program from crashing unexpectedly. This is done using mechanisms like try-catch blocks (exception handling) in many languages.\n" +
+            "Proper error handling improves the robustness and user experience of applications.\n" +
+            "Debugging and Testing:\n" +
+            "\n" +
+            "Debugging involves identifying and fixing errors (bugs) in your code.\n" +
+            "Writing tests, like unit tests or integration tests, helps ensure that the code behaves as expected and makes it easier to spot and fix bugs early.\n" +
+            "Memory Management:\n" +
+            "\n" +
+            "Understanding how memory is allocated and freed is important for creating efficient programs.\n" +
+            "This includes concepts like stack vs heap memory and garbage collection in some languages (e.g., Python, Java) or manual memory management (e.g., C).\n" +
+            "Version Control:\n" +
+            "\n" +
+            "Tools like Git are essential for tracking changes in code, collaborating with others, and managing different versions of a program.\n" +
+            "Version control ensures that code changes are well-documented and easy to manage.\n" +
+            "Mastering these fundamental concepts provides a strong foundation for tackling more complex problems and learning advanced topics in programming.",
         },
-        "2": {
+        "6": {
           // Calculus
           assignment:
             "The current calculus assignment focuses on derivative applications. Are you having trouble with a specific problem?",
           lecture:
             "The recent lecture covered the rules of differentiation, including the power rule, product rule, and chain rule. Which part would you like me to explain further?",
-          module:
-            "This course covers Limits and Continuity in Module 1, and Derivatives in Module 2. Which topic are you interested in?",
+          yes:
+            "Okay, I have sent an email to sujithramprasad@gmail.com",
           default:
-            "I can help you with calculus concepts, problem-solving strategies, or understanding the mathematical principles covered in this course.",
-        },
-        "3": {
-          // Physics
-          assignment:
-            "The current physics lab requires you to measure forces and analyze the data. Are you having trouble with the experimental setup or the calculations?",
-          lecture:
-            "The latest lecture discussed Newton's laws of motion and their applications. Which concept would you like me to clarify?",
-          module:
-            "This course covers Mechanics in Module 1 and Waves and Oscillations in Module 2. What specific topic are you interested in?",
-          default:
-            "I can help you with physics concepts, lab experiments, or problem-solving approaches for this course.",
-        },
+            "Grade:\n" +
+            "\n" +
+            "Multiple Choice Accuracy: 4/10 (Three incorrect answers)\n" +
+            "Short Answer Clarity: 7/10 (Mostly correct but missing some depth)\n" +
+            "Conceptual Depth: 7/10 (Good understanding but lacks depth in some areas)\n" +
+            "Use of Examples: 7/10 (Uses examples but could be more detailed)\n" +
+            "Overall Effort and Completeness: 8/10 (Well-attempted with minor gaps)\n" +
+            "Total Score: 33/50\n" +
+            "Feedback:\n" +
+            "\n" +
+            "You have made a strong effort in answering the quiz, and your responses demonstrate a good foundational understanding of crash recovery in filesystems. However, there are a few areas where more precision and depth could improve your score.\n" +
+            "\n" +
+            "For the multiple-choice section, you correctly answered some key questions but missed others. For instance, the correct drawback of using a linked list to manage free space is (b) It becomes scrambled over time, reducing contiguous allocation. Similarly, the block cache's purpose is to retain frequently accessed disk blocks in memory for faster access rather than storing deleted files. Lastly, fsck’s main purpose is to repair filesystem issues rather than just boosting I/O performance. Reviewing these concepts can strengthen your understanding.\n" +
+            "\n" +
+            "Your short answers were clear and correctly explained the trade-offs between synchronous and delayed writes. However, you could have elaborated on how journaling filesystems mitigate data loss risks when explaining fsck’s role in resolving inconsistencies. Adding specific examples of how different filesystems handle these challenges (e.g., ext4 vs. NTFS) would enhance your response.\n" +
+            "\n" +
+            "In the conceptual section, your understanding of crash recovery techniques like ordered writes and fsck is solid, but expanding on alternative methods like journaling or shadow paging would improve your answers. Also, your discussion on inode corruption risks was accurate, but mentioning how metadata consistency checks can prevent such issues would have added more depth.\n" +
+            "\n" +
+            "Overall, this is a well-attempted quiz with good clarity and effort. Focus on refining technical accuracy and expanding explanations with concrete examples to improve further. Keep up the good work! 🚀\n\n\n" +
+            "Do you want to send an email to the student?",
+        }
       }
 
       // Find a matching response or use default
@@ -245,7 +296,7 @@ export default function CourseDetailPage() {
 
       setMessages((prev) => [...prev, aiMessage])
       setIsTyping(false)
-    }, 1500)
+    }, 4500)
   }
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -310,6 +361,7 @@ export default function CourseDetailPage() {
                   <CardContent>
                     <ul className="space-y-2">
                       {module.materials.map((material) => (
+                        <a href={material.url} target='_blank'>
                         <li
                           key={material.id}
                           className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-md"
@@ -319,11 +371,12 @@ export default function CourseDetailPage() {
                             <span>{material.title}</span>
                           </div>
                           <div>
-                            <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-blue-100 text-blue-800">
-                              {material.type.toUpperCase()}
-                            </span>
+                              <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-blue-100 text-blue-800">
+                                {material.type.toUpperCase()}
+                              </span>
                           </div>
                         </li>
+                        </a>
                       ))}
                     </ul>
                   </CardContent>

@@ -31,7 +31,7 @@ es = Elasticsearch(
 # Initialize SentenceTransformer model for vector search
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
-def index_course_material(data, query):
+def index_course_material(data):
     """Indexes course material into Elasticsearch with vector embeddings."""
     link = data['link']
     content_type = data['type']
@@ -43,14 +43,14 @@ def index_course_material(data, query):
 
     # Generate vector embeddings
     content_vector = model.encode(content).tolist()
-    query_vector = model.encode(query).tolist()
+    # query_vector = model.encode(query).tolist()
 
     # Prepare document for indexing
     doc = {
         'link': link,
         'type': content_type,
-        'prompt': query,
-        'prompt_vector': query_vector,
+        # 'prompt': query,
+        # 'prompt_vector': query_vector,
         'content': content,
         'content_vector': content_vector
     }

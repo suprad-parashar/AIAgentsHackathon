@@ -223,7 +223,7 @@ def create_study_event(data):
     # topic, start_time, end_time
     params = json.loads(data)
 
-    topic = params["topic"]
+    topic = params["event_title"]
     start_time = params["start_time"]
     end_time = params["end_time"]
 

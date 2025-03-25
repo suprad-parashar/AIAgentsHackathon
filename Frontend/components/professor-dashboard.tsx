@@ -57,9 +57,6 @@ export default function ProfessorDashboard({ user }: { user: any }) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex space-x-2">
-                    <Button variant="outline" className="flex-1">
-                      Edit
-                    </Button>
                     <Link href={`/dashboard/courses/${course.id}`} className="flex-1">
                       <Button className="w-full">View</Button>
                     </Link>
